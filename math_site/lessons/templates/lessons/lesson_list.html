@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Lessons{% endblock %}
+
+{% block content %}
+
+<div class="welcome-message">
+    <h2>Welcome to Math Lessons and Exercises!</h2>
+    <p>We are excited to have you here. Explore our lessons and exercises to improve your math skills. Keep up the great work!</p>
+</div>
+
+<h2>Lessons</h2>
+<div class="lesson-list">
+    {% for lesson in lessons %}
+        <div class="lesson-item">
+            <h3><a href="{% url 'lesson_detail' lesson.pk %}">{{ lesson.title }}</a></h3>
+            {% if lesson.image %}
+                <img src="{{ lesson.image.url }}" alt="{{ lesson.title }}">
+            {% endif %}
+            <p>{{ lesson.content|truncatewords:20 }}</p>
+            <a class="btn" href="{% url 'lesson_detail' lesson.pk %}">Read more</a>
+        </div>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated and user.user_type == 'teacher' %}
+<div class="lesson-actions">
+    <a class="btn" href="{% url 'create_lesson' %}">Create a new lesson</a>
+    <a class="btn" href="{% url 'create_exercise' %}">Create a new exercise in lesson</a>
+</div>
+{% endif %}
+
+{% endblock %}

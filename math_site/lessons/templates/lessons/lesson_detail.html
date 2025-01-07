@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ lesson.title }}{% endblock %}
+
+{% block content %}
+<div class="lesson-detail">
+    <h2>{{ lesson.title }}</h2>
+    {% if lesson.video %}
+        <video controls>
+            <source src="{{ lesson.video.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    {% endif %}
+    <p>{{ lesson.content }}</p>
+    {% if lesson.pdf %}
+        <a href="{{ lesson.pdf.url }}" target="_blank">Download PDF</a>
+    {% endif %}
+</div>
+
+<h2>Exercice {{ lesson.title }} </h2>
+<div class="lesson-list">
+    {% for lesson in exercises %}
+        <div class="lesson-item">
+            {% if lesson.image %}
+                <img src="{{ lesson.image.url }}" alt="{{ lesson.title }}">
+            {% endif %}
+            <h3>{{ lesson.question }}</h3>
+        </div>
+    {% endfor %}
+</div>
+<a href="{% url 'edit_lesson' lesson.id %}">edit</a>
+<a href="{% url 'lesson_list' %}">Back to lessons</a>
+{% endblock %}
